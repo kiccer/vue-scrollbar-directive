@@ -8,7 +8,6 @@ const Scrollbar = function (el, option) {
   this.el = $(el) // 需要添加scrollbar的容器
   this.id = this.getId() // 获取唯一 id
   // 创建元素
-  this.scrollbarItem = $('<div>') // 存放一组滚动条
   this.skidwayX = $('<div class="skidwayX">') // 横向滚动条滑道
   this.skidwayY = $('<div class="skidwayY">') // 纵向滚动条滑道
   this.sliderX = $('<div class="sliderX">') // 横向滚动条滑块
@@ -157,7 +156,7 @@ const Scrollbar = function (el, option) {
       // console.log(e)
       $(window).on('mousemove', e => {
         // console.log(e)
-        this.watch.position = Object.assign(this.watch.position, {
+        this.setPosition({
           x: math.range().in((e.pageX - pageX) / sliderXCanSroll + positionX)
         })
       })
@@ -175,7 +174,7 @@ const Scrollbar = function (el, option) {
       // console.log(e)
       $(window).on('mousemove', e => {
         // console.log(e)
-        this.watch.position = Object.assign(this.watch.position, {
+        this.setPosition({
           y: math.range().in((e.pageY - pageY) / sliderYCanSroll + positionY)
         })
       })
@@ -274,7 +273,7 @@ const Scrollbar = function (el, option) {
   }
 
   Sp.updatePosition = function () {
-    let option = this.watch.option
+    // let option = this.watch.option
     let position = this.watch.position
     let el = this.el
     let skidwayX = this.skidwayX
@@ -300,8 +299,8 @@ const Scrollbar = function (el, option) {
       'top': (skidwayY.innerHeight() - sliderY.innerHeight()) * position.y
     })
 
-    el.scrollLeft((el[0].scrollwidth - el.innerWidth() + option.width) * position.x)
-    el.scrollTop((el[0].scrollHeight - el.innerHeight() + option.width) * position.y)
+    el.scrollLeft((el[0].scrollWidth - el.innerWidth()) * position.x)
+    el.scrollTop((el[0].scrollHeight - el.innerHeight()) * position.y)
   }
 })(Scrollbar.prototype)
 
@@ -316,7 +315,7 @@ const vueScrollbarDirective = function (vm, option) {
     inserted (el, binding, vnode, oldVnode) {
       // console.log(el, binding, vnode, oldVnode)
       el.scrollbar = new Scrollbar(el, binding.value)
-      console.log(el.scrollbar)
+      // console.log(el.scrollbar)
       // el.scrollbar.setOption({ bbb: 333 })
     },
     componentUpdated (el) {
