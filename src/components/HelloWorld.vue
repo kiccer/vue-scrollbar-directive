@@ -1,113 +1,70 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
-  </div>
+<div class="hello">
+  <p class="btns">
+    <button @click="changeListCount(10)">增加10条</button>
+    <button @click="changeListCount(-10)">减少10条</button>
+    <button @click="vif = !vif">on/off</button>
+    <!-- <button @click="switchKeep">keep switch</button> -->
+  </p>
+  <ul v-if="vif" class="scrollbar-demo" ref="scrollbar-demo" v-scrollbar="scrollbarOptions">
+    <li v-for="(n, i) in list" :key="i">{{ i + 1 }}. {{ n }}</li>
+  </ul>
+</div>
 </template>
 
 <script>
+import math from '@catnap/math.js'
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      vif: true,
+      listCount: 30,
+      scrollbarOptions: {
+        // keep: true,
+        skidwayStyle: {
+          'background-color': 'rgba(40, 44, 52, .1)',
+          'border-radius': '8px'
+        },
+        sliderStyle: {
+          'background-color': 'rgba(97, 163, 191, 1)',
+          'border-radius': '8px'
+        }
+      }
+    }
+  },
+  methods: {
+    changeListCount (c) {
+      this.listCount = math.range(10, 100).in(this.listCount + c)
+    }
+    // switchKeep () {
+    //   this.$set(this.scrollbarOptions, 'keep', !this.scrollbarOptions.keep)
+    //   this.$refs['scrollbar-demo'].scrollbar.setOption(this.scrollbarOptions.keep)
+    // }
+  },
+  computed: {
+    list () {
+      return Array(this.listCount).fill('Lorem ipsum dolor sit amet, consectetur adipisicing elit.')
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
+<style lang="scss" scoped>
+.scrollbar-demo {
+  display: block;
+  width: 20%;
+  height: 300px;
+  margin: 30px auto;
+  border: 1px solid #ccc;
+  li {
+    width: 400px;
+  }
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.btns {
+  text-align: center;
+  margin-top: 30px;
 }
 </style>

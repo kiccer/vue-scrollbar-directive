@@ -1,9 +1,8 @@
 {
   "name": "vue-scrollbar-directive",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Uses the custom instruction in VUE to realize the custom scrollbar effect.",
   "author": "kiccer(1072907338@qq.com)",
-  "private": true,
   "main": "./static/js/vue-scrollbar-directive.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -15,8 +14,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "@catnap/math.js": "^1.2.0",
+    "jquery": "^3.4.1",
+    "jquery-mousewheel": "^3.1.13"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -37,7 +37,7 @@
     "chromedriver": "^2.27.2",
     "copy-webpack-plugin": "^4.0.1",
     "cross-spawn": "^5.0.1",
-    "css-loader": "^0.28.0",
+    "css-loader": "^0.28.11",
     "eslint": "^4.15.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
@@ -55,6 +55,7 @@
     "jest-serializer-vue": "^0.3.0",
     "nightwatch": "^0.9.12",
     "node-notifier": "^5.1.2",
+    "node-sass": "^4.12.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
     "portfinder": "^1.0.13",
@@ -62,6 +63,7 @@
     "postcss-loader": "^2.0.8",
     "postcss-url": "^7.2.1",
     "rimraf": "^2.6.0",
+    "sass-loader": "^7.3.1",
     "selenium-server": "^3.0.1",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
@@ -69,12 +71,15 @@
     "url-loader": "^0.5.8",
     "vue-jest": "^1.0.2",
     "vue-loader": "^13.3.0",
-    "vue-style-loader": "^3.0.1",
+    "vue-style-loader": "^3.1.2",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^3.1.11",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "style.init.css": "^1.1.0",
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1"
   },
   "engines": {
     "node": ">= 6.0.0",
