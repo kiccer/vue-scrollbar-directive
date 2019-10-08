@@ -30,6 +30,19 @@ export default {
         sliderStyle: {
           'background-color': 'rgba(97, 163, 191, 1)',
           'border-radius': '8px'
+        },
+        hover: {
+          skidwayStyle: {
+            'background-color': 'rgba(40, 44, 52, .3)'
+          },
+          sliderStyle: {
+            'background-color': 'green'
+          }
+        },
+        active: {
+          sliderStyle: {
+            'background-color': 'red'
+          }
         }
       }
     }

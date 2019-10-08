@@ -75,13 +75,23 @@ option = {
   widthOnHover: 16, // scrollbar width in mouse hover
   wheelDistance: 50, // Distance of Rolling Wheel Rolling Once
   keep: false, // Whether to keep the display, default `false`, hide the scrollbar when the mouse moves out
-  // skidway style, Support CSS Style, jQuery(elem).css()
+  // skidway style, use CSS Style
   skidwayStyle: {
     'background-color': '#F1F1F1'
   },
-  // slider style, Support CSS Style, jQuery(elem).css()
+  // slider style, use CSS Style
   sliderStyle: {
     'background-color': '#C1C1C1'
+  },
+  // hover style
+  hover: {
+    skidwayStyle: {},
+    sliderStyle: {}
+  },
+  // active style
+  active: {
+    skidwayStyle: {}, // Not recommended
+    sliderStyle: {}
   }
 }
 ```

@@ -1,6 +1,6 @@
 {
   "name": "vue-scrollbar-directive",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Uses the custom instruction in VUE to realize the custom scrollbar effect.",
   "author": "kiccer(1072907338@qq.com)",
   "main": "./static/js/vue-scrollbar-directive.js",
@@ -15,8 +15,10 @@
   },
   "dependencies": {
     "@catnap/math.js": "^1.2.0",
+    "element-resize-detector": "^1.1.15",
     "jquery": "^3.4.1",
-    "jquery-mousewheel": "^3.1.13"
+    "jquery-mousewheel": "^3.1.13",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -37,7 +39,7 @@
     "chromedriver": "^2.27.2",
     "copy-webpack-plugin": "^4.0.1",
     "cross-spawn": "^5.0.1",
-    "css-loader": "^0.28.11",
+    "css-loader": "^0.28.0",
     "eslint": "^4.15.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
@@ -67,17 +69,17 @@
     "selenium-server": "^3.0.1",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "style.init.css": "^1.1.0",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-jest": "^1.0.2",
     "vue-loader": "^13.3.0",
-    "vue-style-loader": "^3.1.2",
+    "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-dev-server": "^3.1.11",
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0",
-    "style.init.css": "^1.1.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
