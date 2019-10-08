@@ -1,6 +1,9 @@
 import $ from 'jquery'
 import 'jquery-mousewheel'
+import elementResizeDetector from 'element-resize-detector'
 import math from '@catnap/math.js'
+
+let erd = elementResizeDetector({ strategy: 'scroll' }) // 监听元素大小改变方法，基于 scroll 策略
 
 // scrollbar 构造函数
 const Scrollbar = function (el, option) {
@@ -121,6 +124,11 @@ const Scrollbar = function (el, option) {
       'position': 'absolute'
     })
 
+    // resize
+    erd.listenTo(el[0], elem => {
+      this.update()
+    })
+
     // 鼠标滚轮监听
     el.on('mousewheel', e => {
       // console.log(e)
@@ -225,6 +233,8 @@ const Scrollbar = function (el, option) {
     el.off('scroll')
     sliderX.off('mousedown')
     sliderY.off('mousedown')
+
+    erd.uninstall(el[0])
   }
 
   // 渲染视图
