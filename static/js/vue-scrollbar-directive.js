@@ -280,7 +280,7 @@ const Scrollbar = function (el, option) {
         ${elQuery} > .skidwayY {
           display: ${option.y ? 'block' : 'none'};
           width: ${option.width}px;
-          height: calc(100% - ${option.y ? option.width : 0}px);
+          height: calc(100% - ${option.x ? option.width : 0}px);
           border-box: box-sizing;
           position: absolute;
           transition: all .2s ease, top 0s, left 0s, right 0s, bottom 0s;
