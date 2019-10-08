@@ -1,3 +1,4 @@
+import lodash from 'lodash'
 import $ from 'jquery'
 import 'jquery-mousewheel'
 import elementResizeDetector from 'element-resize-detector'
@@ -10,6 +11,7 @@ const Scrollbar = function (el, option) {
   let that = this
   this.el = $(el) // 需要添加scrollbar的容器
   this.id = this.getId() // 获取唯一 id
+  this.el.attr(this.id, '')
   // 创建元素
   this.skidwayX = $('<div class="skidwayX">') // 横向滚动条滑道
   this.skidwayY = $('<div class="skidwayY">') // 纵向滚动条滑道
@@ -18,7 +20,7 @@ const Scrollbar = function (el, option) {
   // 监听对象
   this.watch = {
     // 最终生效配置
-    _option: Object.assign({}, this.initOptions, option),
+    _option: lodash.merge({}, this.initOptions, option),
     get option () {
       return this._option
     },
@@ -36,10 +38,10 @@ const Scrollbar = function (el, option) {
       that.update('position')
     }
   }
-  // 初始化
-  this.initScrollbar()
   // 将实例挂载到元素上
   this.el.scrollbar = this
+  // 初始化
+  this.initScrollbar()
   // 调用更新视图方法
   this.update()
 }
@@ -56,12 +58,12 @@ const Scrollbar = function (el, option) {
 
   // 设置 option
   Sp.setOption = function (obj) {
-    this.watch.option = Object.assign({}, this.watch.option, obj)
+    this.watch.option = lodash.merge({}, this.watch.option, obj)
   }
 
   // 设置 position
   Sp.setPosition = function (obj) {
-    this.watch.position = Object.assign({}, this.watch.position, obj)
+    this.watch.position = lodash.merge({}, this.watch.position, obj)
   }
 
   // 默认配置
@@ -73,13 +75,23 @@ const Scrollbar = function (el, option) {
     widthOnHover: 16, // 鼠标悬浮时滚动条粗细
     wheelDistance: 50, // 滚轮滚一次滚动的距离
     keep: false, // 是否保持显示，默认false，鼠标移出时隐藏滚动条
-    // 滑道样式，支持 css 样式，jQuery(elem).css()
+    // 滑道样式，使用 css 样式
     skidwayStyle: {
       'background-color': '#F1F1F1'
     },
-    // 滑块样式，支持 css 样式，jQuery(elem).css()
+    // 滑块样式，使用 css 样式
     sliderStyle: {
       'background-color': '#C1C1C1'
+    },
+    // 悬浮时样式
+    hover: {
+      skidwayStyle: {},
+      sliderStyle: {}
+    },
+    // 按下时样式
+    active: {
+      skidwayStyle: {},
+      sliderStyle: {}
     }
   }
 
@@ -91,38 +103,11 @@ const Scrollbar = function (el, option) {
     let skidwayY = this.skidwayY
     let sliderX = this.sliderX
     let sliderY = this.sliderY
-    el.css({'overflow': 'hidden'})
-    if (el.css('position') === 'static') {
-      el.css({'position': 'relative'})
-    }
     // appendChild
     el.append(skidwayX)
     el.append(skidwayY)
     skidwayX.append(sliderX)
     skidwayY.append(sliderY)
-    // set style
-    skidwayX.css({
-      'border-box': 'box-sizing',
-      'position': 'absolute',
-      'transition': 'width .2s ease, height .2s ease, opacity .2s ease',
-      'user-select': 'none',
-      'opacity': option.keep ? '1' : '0'
-    })
-    skidwayY.css({
-      'border-box': 'box-sizing',
-      'position': 'absolute',
-      'transition': 'width .2s ease, height .2s ease, opacity .2s ease',
-      'user-select': 'none',
-      'opacity': option.keep ? '1' : '0'
-    })
-    sliderX.css({
-      'border-box': 'box-sizing',
-      'position': 'absolute'
-    })
-    sliderY.css({
-      'border-box': 'box-sizing',
-      'position': 'absolute'
-    })
 
     // resize
     erd.listenTo(el[0], elem => {
@@ -160,6 +145,7 @@ const Scrollbar = function (el, option) {
       let pageX = e.pageX
       let positionX = this.watch.position.x
       let sliderXCanSroll = skidwayX.innerWidth() - sliderX.innerWidth()
+      sliderX.addClass('active')
       e.stopPropagation()
       // console.log(e)
       $(window).on('mousemove', e => {
@@ -170,6 +156,7 @@ const Scrollbar = function (el, option) {
       })
 
       $(window).on('mouseup', () => {
+        sliderX.removeClass('active')
         $(window).off('mousemove')
       })
     })
@@ -178,6 +165,7 @@ const Scrollbar = function (el, option) {
       let pageY = e.pageY
       let positionY = this.watch.position.y
       let sliderYCanSroll = skidwayY.innerHeight() - sliderY.innerHeight()
+      sliderY.addClass('active')
       e.stopPropagation()
       // console.log(e)
       $(window).on('mousemove', e => {
@@ -188,21 +176,26 @@ const Scrollbar = function (el, option) {
       })
 
       $(window).on('mouseup', () => {
+        sliderY.removeClass('active')
         $(window).off('mousemove')
       })
     })
 
     // 滚动条hover
     skidwayX.hover(() => {
-      skidwayX.css('height', option.widthOnHover)
+      skidwayX.css({ 'height': option.widthOnHover })
+      skidwayX.addClass('hover')
     }, () => {
-      skidwayX.css('height', option.width)
+      skidwayX.css({ 'height': option.width })
+      skidwayX.removeClass('hover')
     })
 
     skidwayY.hover(() => {
-      skidwayY.css('width', option.widthOnHover)
+      skidwayY.css({ 'width': option.widthOnHover })
+      skidwayY.addClass('hover')
     }, () => {
-      skidwayY.css('width', option.width)
+      skidwayY.css({ 'width': option.width })
+      skidwayY.removeClass('hover')
     })
 
     // 点击滑道直接到指定位置
@@ -252,34 +245,85 @@ const Scrollbar = function (el, option) {
   Sp.updateOption = function () {
     let option = this.watch.option
     let el = this.el
-    let skidwayX = this.skidwayX
-    let skidwayY = this.skidwayY
-    let sliderX = this.sliderX
-    let sliderY = this.sliderY
 
-    skidwayX.css(Object.assign({
-      'display': option.x ? 'block' : 'none',
-      'width': `calc(100% - ${option.y ? option.width : 0}px)`,
-      'height': option.width
-    }, option.skidwayStyle))
+    let elQuery = `${el[0].tagName.toLowerCase()}[${this.id}]`
+    let skidwayBaseStyle = Object.keys(option.skidwayStyle).map(n => n + ': ' + option.skidwayStyle[n] + ';').join('\n')
+    let sliderBaseStyle = Object.keys(option.sliderStyle).map(n => n + ': ' + option.sliderStyle[n] + ';').join('\n')
+    let skidwayHoverStyle = Object.keys(option.hover.skidwayStyle).map(n => n + ': ' + option.hover.skidwayStyle[n] + ';').join('\n')
+    let sliderHoverStyle = Object.keys(option.hover.sliderStyle).map(n => n + ': ' + option.hover.sliderStyle[n] + ';').join('\n')
+    let skidwayActiveStyle = Object.keys(option.active.skidwayStyle).map(n => n + ': ' + option.active.skidwayStyle[n] + ';').join('\n')
+    let sliderActiveStyle = Object.keys(option.active.sliderStyle).map(n => n + ': ' + option.active.sliderStyle[n] + ';').join('\n')
 
-    skidwayY.css(Object.assign({
-      'display': option.y ? 'block' : 'none',
-      'width': option.width,
-      'height': `calc(100% - ${option.x ? option.width : 0}px)`
-    }, option.skidwayStyle))
-
-    sliderX.css(Object.assign({
-      'display': el.innerWidth() < el[0].scrollWidth ? 'block' : 'none',
-      'width': `${el.innerWidth() / el[0].scrollWidth * 100}%`,
-      'height': '100%'
-    }, option.sliderStyle))
-
-    sliderY.css(Object.assign({
-      'display': el.innerHeight() < el[0].scrollHeight ? 'block' : 'none',
-      'width': '100%',
-      'height': `${el.innerHeight() / el[0].scrollHeight * 100}%`
-    }, option.sliderStyle))
+    $(document.head).append(`
+      <style type="text/css">
+        ${elQuery} {
+          overflow: hidden;
+          position: ${el.css('position') === 'static' ? 'relative' : el.css('position')};
+        }
+        ${elQuery} > .skidwayX {
+          display: ${option.x ? 'block' : 'none'};
+          width: calc(100% - ${option.y ? option.width : 0}px);
+          height: ${option.width}px;
+          border-box: box-sizing;
+          position: absolute;
+          transition: all .2s ease, top 0s, left 0s, right 0s, bottom 0s;
+          user-select: none;
+          opacity: ${option.keep ? '1' : '0'};
+          ${skidwayBaseStyle}
+        }
+        ${elQuery} > .skidwayX.hover {
+          ${skidwayHoverStyle}
+        }
+        ${elQuery} > .skidwayX.active {
+          ${skidwayActiveStyle}
+        }
+        ${elQuery} > .skidwayY {
+          display: ${option.y ? 'block' : 'none'};
+          width: ${option.width}px;
+          height: calc(100% - ${option.y ? option.width : 0}px);
+          border-box: box-sizing;
+          position: absolute;
+          transition: all .2s ease, top 0s, left 0s, right 0s, bottom 0s;
+          user-select: none;
+          opacity: ${option.keep ? '1' : '0'};
+          ${skidwayBaseStyle}
+        }
+        ${elQuery} > .skidwayY.hover {
+          ${skidwayHoverStyle}
+        }
+        ${elQuery} > .skidwayY.active {
+          ${skidwayActiveStyle}
+        }
+        ${elQuery} > .skidwayX > .sliderX {
+          display: ${el.innerWidth() < el[0].scrollWidth ? 'block' : 'none'};
+          width: ${el.innerWidth() / el[0].scrollWidth * 100}%;
+          height: 100%;
+          border-box: box-sizing;
+          position: absolute;
+          ${sliderBaseStyle}
+        }
+        ${elQuery} > .skidwayX.hover > .sliderX {
+          ${sliderHoverStyle}
+        }
+        ${elQuery} > .skidwayX > .sliderX.active {
+          ${sliderActiveStyle}
+        }
+        ${elQuery} > .skidwayY > .sliderY {
+          display: ${el.innerHeight() < el[0].scrollHeight ? 'block' : 'none'};
+          width: 100%;
+          height: ${el.innerHeight() / el[0].scrollHeight * 100}%;
+          border-box: box-sizing;
+          position: absolute;
+          ${sliderBaseStyle}
+        }
+        ${elQuery} > .skidwayY.hover > .sliderY {
+          ${sliderHoverStyle}
+        }
+        ${elQuery} > .skidwayY > .sliderY.active {
+          ${sliderActiveStyle}
+        }
+      </style>
+    `)
   }
 
   Sp.updatePosition = function () {
@@ -293,12 +337,16 @@ const Scrollbar = function (el, option) {
 
     skidwayX.css({
       'bottom': -el.scrollTop(),
-      'left': el.scrollLeft()
+      'left': el.scrollLeft(),
+      'top': 'auto',
+      'right': 'auto'
     })
 
     skidwayY.css({
       'top': el.scrollTop(),
-      'right': -el.scrollLeft()
+      'right': -el.scrollLeft(),
+      'bottom': 'auto',
+      'left': 'auto'
     })
 
     sliderX.css({

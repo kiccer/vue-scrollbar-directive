@@ -1,6 +1,6 @@
 {
   "name": "vue-scrollbar-directive",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Uses the custom instruction in VUE to realize the custom scrollbar effect.",
   "author": "kiccer(1072907338@qq.com)",
   "main": "./static/js/vue-scrollbar-directive.js",
@@ -17,7 +17,8 @@
     "@catnap/math.js": "^1.2.0",
     "element-resize-detector": "^1.1.15",
     "jquery": "^3.4.1",
-    "jquery-mousewheel": "^3.1.13"
+    "jquery-mousewheel": "^3.1.13",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
