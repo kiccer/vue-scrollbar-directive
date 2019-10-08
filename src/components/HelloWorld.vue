@@ -22,6 +22,7 @@ export default {
       vif: true,
       listCount: 30,
       scrollbarOptions: {
+        x: false,
         // keep: true,
         skidwayStyle: {
           'background-color': 'rgba(40, 44, 52, .1)',
